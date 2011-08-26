@@ -11,14 +11,14 @@ describe User do
       }
     end
 
-    it "can find" do
+    it "can find a user with a user token" do
       user = User.make! email: email
       result = User.find_or_create_by_token(token)
 
       result.should == user
     end
 
-    it "can create" do
+    it "can create a user with a user token" do
       user = User.make! email: email
       User.find_or_create_by_token(token)
       User.all.count.should == 1
@@ -26,7 +26,7 @@ describe User do
   end
 
   describe "#orderers" do
-    it "lists users who have ordered" do
+    it "lists users who have ordered this week" do
       users = User.make! 2
       users.each {|u| u.order("Beef Burger" => 5)}
 
@@ -38,7 +38,7 @@ describe User do
       end
     end
 
-    it "does not include users who have not ordered" do
+    it "does not include users who have not ordered this week" do
       not_included = nil
       Timecop.travel 2.weeks.ago do
         not_included = User.make!
@@ -56,7 +56,7 @@ describe User do
   end
 
   describe "#non_orderers" do
-    it "lists users who have not ordered" do
+    it "lists users who have not ordered this week" do
       users = User.make! 2
 
       non_orderers = User.non_orderers
@@ -67,7 +67,7 @@ describe User do
       end
     end
 
-    it "does not include users who have ordered" do
+    it "does not include users who have ordered this week" do
       included = nil
       Timecop.travel 8.days.ago do
         included = User.make!
@@ -81,6 +81,19 @@ describe User do
 
       non_orderers.include?(excluded).should be_false
       non_orderers.include?(included).should be_true
+    end
+
+    it "should not list users who have ordered last week but not this week" do
+      user = User.make!
+      Timecop.travel 15.days.ago do
+        user.order("Beef Burger" => 2)
+      end
+      Timecop.travel 8.days.ago do
+        user.order("Beef Burger" => 2)
+      end
+
+      User.non_orderers.include?(user).should == true
+      User.orderers.include?(user).should == false
     end
   end
 end
