@@ -12,6 +12,7 @@ gem 'mongoid'
 gem 'bson_ext'
 gem 'therubyracer-heroku'
 gem 'pg'
+gem 'thin'
 
 group  :development do
   gem 'passenger'
