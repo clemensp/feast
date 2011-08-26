@@ -40,7 +40,7 @@ describe Order do
 
     it "can happen again next week" do
       @user.order(@food)
-      Timecop.travel 1.week.from_now do
+      Timecop.travel 8.days.since do
         @user.order(@food)
       end
 
