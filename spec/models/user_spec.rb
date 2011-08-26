@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe User do
-  context "#find_or_create_by_token" do
+  describe "#find_or_create_by_token" do
     let(:email) {'foo@nulogy.com'}
     let(:token) do
       {
@@ -25,7 +25,7 @@ describe User do
     end
   end
 
-  context "#orderers" do
+  describe "#orderers" do
     it "lists users who have ordered" do
       users = User.make! 2
       users.each {|u| u.order("Beef Burger" => 5)}
@@ -41,7 +41,8 @@ describe User do
     it "does not include users who have not ordered" do
       not_included = nil
       Timecop.travel 2.weeks.ago do
-        not_included = User.make!.order('Beef Burger' => 10)
+        not_included = User.make!
+        not_included.order('Beef Burger' => 10)
       end
 
       included = User.make!
@@ -54,7 +55,7 @@ describe User do
     end
   end
 
-  context "#non_orderers" do
+  describe "#non_orderers" do
     it "lists users who have not ordered" do
       users = User.make! 2
 
@@ -68,7 +69,7 @@ describe User do
 
     it "does not include users who have ordered" do
       included = nil
-      Timecop.travel 1.weeks.ago do
+      Timecop.travel 8.days.ago do
         included = User.make!
         included.order('Beef Burger' => 10)
       end
