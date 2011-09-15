@@ -7,7 +7,7 @@ describe OrderWeek do
     end
   end
 
-  describe "#this_week" do
+  describe ".this_week" do
     it "should create a new order week if it does not exist" do
       expect {
         OrderWeek.this_week
@@ -22,7 +22,7 @@ describe OrderWeek do
     end
   end
 
-  describe "#this_friday" do
+  describe ".this_friday" do
     it "should return the friday of the current week on sunday" do
       Timecop.freeze Time.zone.parse("2011-08-28") do
         assert_equal "2011-09-02", OrderWeek.this_friday.to_s
@@ -39,6 +39,12 @@ describe OrderWeek do
       Timecop.freeze Time.zone.parse("2011-09-03") do
         assert_equal "2011-09-02", OrderWeek.this_friday.to_s
       end
+    end
+  end
+
+  describe "#orderers" do
+    it "should return the users who have ordered this week" do
+
     end
   end
 end

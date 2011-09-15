@@ -3,6 +3,7 @@ class Order
   include Mongoid::Timestamps
 
   embedded_in :user
+  belongs_to :order_week
 
   def self.errored(msg)
     new.tap {|o| o.errors.add(:base, msg)}
@@ -27,5 +28,4 @@ class Order
       }
       .join(', ')
   end
-
 end

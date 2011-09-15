@@ -27,7 +27,7 @@ class User
     if already_ordered?
       Order.errored("You cannot place another order this week")
     else
-      orders.create! food
+      orders.create! food.merge({:order_week => OrderWeek.this_week})
     end
   end
 
@@ -36,7 +36,8 @@ class User
   end
 
   def current_order
-    orders.where(:created_at.gt => last_friday).first
+    orders.where(:order_week => OrderWeek.this_week).first
+    #orders.where(:created_at.gt => last_friday).first
   end
 
   def previous_orders
