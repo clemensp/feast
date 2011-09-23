@@ -16,11 +16,11 @@ class User
   end
 
   def self.orderers
-    all(conditions: { "orders.created_at" => { "$gte" => last_friday.to_time }})
+    all(conditions: { "orders.order_week_id" => OrderWeek.this_week.id})
   end
 
   def self.non_orderers
-    all(conditions: { "orders.created_at" => { "$not" => { "$gte" => last_friday.to_time }}})
+    all(conditions: { "orders.order_week_id" => { "$ne" => OrderWeek.this_week.id}})
   end
 
   def order(food)
@@ -37,10 +37,9 @@ class User
 
   def current_order
     orders.where(:order_week => OrderWeek.this_week).first
-    #orders.where(:created_at.gt => last_friday).first
   end
 
   def previous_orders
-    orders.where(:created_at.lt => last_friday)
+    orders.where(:order_week.ne => OrderWeek.this_week)
   end
 end

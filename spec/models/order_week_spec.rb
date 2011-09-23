@@ -41,10 +41,4 @@ describe OrderWeek do
       end
     end
   end
-
-  describe "#orderers" do
-    it "should return the users who have ordered this week" do
-
-    end
-  end
 end
