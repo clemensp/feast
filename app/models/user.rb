@@ -36,10 +36,10 @@ class User
   end
 
   def current_order
-    orders.where(:order_week => OrderWeek.this_week).first
+    orders.where(:order_week_id => OrderWeek.this_week.id).first
   end
 
   def previous_orders
-    orders.where(:order_week.ne => OrderWeek.this_week)
+    orders.where(:order_week_id.ne => OrderWeek.this_week.id)
   end
 end

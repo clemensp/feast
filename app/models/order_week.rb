@@ -9,6 +9,6 @@ class OrderWeek
   end
 
   def self.this_friday
-    Time.zone.now.to_date + (5 - Time.zone.now.wday).days
+    Time.zone.now.to_date - Time.zone.now.wday.days + 5
   end
 end
